@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 const SignUp = () => {
+    const { createUserByEmail } = useContext(AuthContext)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -15,6 +17,15 @@ const SignUp = () => {
         console.log('email', email)
         console.log('pass', password)
         console.log('confirmPassword', confirmPassword)
+
+        createUserByEmail(email, password)
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     return (
