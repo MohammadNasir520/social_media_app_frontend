@@ -7,6 +7,8 @@ import Login from "../pages/Login/Login";
 import NotFonund from "../pages/NotFonund";
 import SignUp from "../pages/SignUp/SignUp";
 import Main from "../layout/Main";
+import Media from "../pages/Media/Media";
+import About from "../pages/About/About";
 
 
 
@@ -17,8 +19,9 @@ const router = createBrowserRouter([
         children: [
 
             {
-                path: "/home",
-                element: <Home></Home>,
+                index: true,
+                path: "/",
+                element: <Home />,
             },
             {
                 path: "/signin",
@@ -27,7 +30,17 @@ const router = createBrowserRouter([
             {
                 path: "/signup",
                 element: <SignUp />,
-            },]
+            },
+            {
+                path: "/media",
+                element: <Media />,
+            },
+            {
+                path: "/about",
+                element: <About />,
+            },
+
+        ]
 
     },
     {
