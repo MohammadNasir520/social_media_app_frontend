@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import { toast } from "react-hot-toast";
 
 
 const SignUp = () => {
-    const { createUserByEmail } = useContext(AuthContext)
+    const { createUserByEmail, updateUser } = useContext(AuthContext)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -20,7 +21,15 @@ const SignUp = () => {
 
         createUserByEmail(email, password)
             .then(result => {
-                console.log(result.user)
+                const user = result.user
+                console.log(user)
+                updateUser(name)
+
+                if (user) {
+                    toast.success("user created success fully")
+                    event.target.reset()
+                }
+
             })
             .catch(error => {
                 console.log(error)

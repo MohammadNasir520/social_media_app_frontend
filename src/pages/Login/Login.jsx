@@ -1,19 +1,37 @@
 
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+import { toast } from "react-hot-toast";
+
 
 
 
 const Login = () => {
-
+    const { loginByEmailAndPassWord } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault()
         console.log('email', email)
         console.log('pass', password)
+
+        loginByEmailAndPassWord(email, password)
+            .then(result => {
+                const user = result.user
+                console.log(result)
+                if (user) {
+                    toast.success(`${user.displayName} logged in successfully`)
+                    event.target.reset()
+                    navigate("/")
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     return (
