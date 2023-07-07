@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider";
 
 
 const Navbar = () => {
     const [isMenuOpen, setMenuOpen] = useState(false)
-    console.log(isMenuOpen)
+
+    const user = useContext(AuthContext)
+    console.log(user)
 
     return (
         <div>
