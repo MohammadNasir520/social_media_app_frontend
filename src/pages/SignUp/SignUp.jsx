@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
+import { saveUerToDatabase } from "../../api/userApi";
 
 
 const SignUp = () => {
@@ -19,6 +20,10 @@ const SignUp = () => {
         console.log('pass', password)
         console.log('confirmPassword', confirmPassword)
 
+        const initialUser = {
+            name, email, password, confirmPassword
+        }
+
         createUserByEmail(email, password)
             .then(result => {
                 const user = result.user
@@ -26,8 +31,16 @@ const SignUp = () => {
                 updateUser(name)
 
                 if (user) {
-                    toast.success("user created success fully")
+
                     event.target.reset()
+                    saveUerToDatabase(initialUser)
+                        .then(data => {
+                            console.log(data)
+                            toast.success("user created and saved success fully")
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
 
             })

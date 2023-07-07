@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthProvider";
 
 const Navbar = () => {
     const [isMenuOpen, setMenuOpen] = useState(false)
-    const { user, loginByEmailAndPassWord, logout } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
@@ -21,20 +21,26 @@ const Navbar = () => {
     }
 
     const navItems = <>
-        <li><NavLink className={({ isActive }) =>
-            isActive ? `text-blue-700 font-bold p-4` : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} to={'/'}>
+        <li><NavLink
+            to={'/'}
+            className={({ isActive }) =>
+                isActive ? `text-blue-700 font-bold p-4` : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Home</NavLink></li>
 
-        <li><NavLink className={({ isActive }) =>
-            isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} to={'/media'}>
+        <li><NavLink
+            to={'/media'}
+            className={({ isActive }) =>
+                isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Media</NavLink></li>
 
-        <li><NavLink className={({ isActive }) =>
-            isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} to={'/message'}>
+        <li><NavLink to="/message" className={({ isActive }) =>
+            isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Message</NavLink></li>
 
-        <li><NavLink className={({ isActive }) =>
-            isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} to={'/about'}>
+        <li><NavLink
+            to={'/about'}
+            className={({ isActive }) =>
+                isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `}>
             About</NavLink></li>
 
     </>

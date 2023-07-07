@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import Main from "../layout/Main";
 import Media from "../pages/Media/Media";
 import About from "../pages/About/About";
+import Message from "../pages/Message/Message";
 
 
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "/media",
                 element: <Media />,
+            },
+            {
+                path: "/message",
+                element: <Message />,
             },
             {
                 path: "/about",
