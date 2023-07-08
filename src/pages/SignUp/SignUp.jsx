@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
-import { saveUerToDatabase } from "../../api/userApi";
+import { gmailSignupDataSaveToDB, saveUerToDatabase } from "../../api/userApi";
 import { GoogleAuthProvider } from "firebase/auth";
 
 
@@ -60,6 +60,19 @@ const SignUp = () => {
                 if (user.uid) {
                     toast(`${user.displayName} created account successfully`)
                     console.log('user', user)
+
+                    const initialUser = {
+                        name: user.displayName,
+                        email: user.email,
+                        image: user.photoUR
+                    }
+                    gmailSignupDataSaveToDB(initialUser)
+                        .then(data => {
+                            console.log(data)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
             })
     }
