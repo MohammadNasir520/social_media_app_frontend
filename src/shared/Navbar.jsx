@@ -22,22 +22,27 @@ const Navbar = () => {
 
     const navItems = <>
         <li><NavLink
+            onClick={() => setMenuOpen(false)}
             to={'/'}
             className={({ isActive }) =>
                 isActive ? `text-blue-700 font-bold p-4` : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Home</NavLink></li>
 
         <li><NavLink
+            onClick={() => setMenuOpen(false)}
             to={'/media'}
             className={({ isActive }) =>
                 isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Media</NavLink></li>
 
-        <li><NavLink to="/message" className={({ isActive }) =>
-            isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
+        <li><NavLink
+            onClick={() => setMenuOpen(false)}
+            to="/message" className={({ isActive }) =>
+                isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `} >
             Message</NavLink></li>
 
         <li><NavLink
+            onClick={() => setMenuOpen(false)}
             to={'/about'}
             className={({ isActive }) =>
                 isActive ? "text-blue-700 font-bold p-4" : `${isMenuOpen ? "block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50  rounded" : "text-sm text-gray-400 hover:text-gray-500 "}  `}>
@@ -45,7 +50,7 @@ const Navbar = () => {
 
     </>
 
-    const signOption = <>
+    const signOption = <div className=" lg:flex">
         {
             user && user?.uid
                 ?
@@ -73,7 +78,11 @@ const Navbar = () => {
                 </>
 
         }
-    </>
+        <div className="flex items-center space-x-2 m ">
+            <img className="w-10 h-10 rounded-full" src={`${user?.photoURL}`} alt="pp" />
+            {isMenuOpen && <h2 className="text-gray-800 font-bold cursor-pointer">{user?.displayName}</h2>}
+        </div>
+    </div>
 
     return (
         <div>
@@ -101,6 +110,7 @@ const Navbar = () => {
                         {signOption}
 
                     </div>
+
                 </nav>
                 <div className={`navbar-menu relative z-50  ${isMenuOpen ? "" : "hidden"}`}>
                     <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>

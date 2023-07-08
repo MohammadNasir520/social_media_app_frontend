@@ -9,7 +9,6 @@ export const AuthContext = createContext()
 const auth = getAuth(app)
 
 
-
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     console.log(user)
@@ -19,10 +18,12 @@ const AuthProvider = ({ children }) => {
     }
 
     //set users information
-    const updateUser = (name) => {
+    const updateUser = (name, photoURL) => {
 
         const profile = {
             displayName: name,
+            photoURL: photoURL
+
         }
         return updateProfile(auth.currentUser, profile)
     }

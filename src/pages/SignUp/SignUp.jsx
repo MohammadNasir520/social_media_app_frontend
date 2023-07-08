@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 import { gmailSignupDataSaveToDB, saveUerToDatabase } from "../../api/userApi";
 import { GoogleAuthProvider } from "firebase/auth";
+import { uploadImage } from "../../api/uploadImage";
 
 
 const SignUp = () => {
@@ -15,41 +16,56 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
 
     const googleProvider = new GoogleAuthProvider()
+    const navigate = useNavigate()
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log('name', name)
-        console.log('email', email)
-        console.log('pass', password)
-        console.log('confirmPassword', confirmPassword)
+        const image = event.target.image.files[0]
+
 
         const initialUser = {
             name, email, password, confirmPassword
         }
 
-        createUserByEmail(email, password)
-            .then(result => {
-                const user = result.user
-                console.log(user)
-                updateUser(name)
+        uploadImage(image)
+            .then(photoURL => {
+                console.log(photoURL)
+                if (photoURL) {
+                    createUserByEmail(email, password)
+                        .then(result => {
+                            const user = result.user
+                            console.log(user)
 
-                if (user) {
+                            // update user information of firebase
+                            updateUser(name, photoURL)
 
-                    event.target.reset()
-                    saveUerToDatabase(initialUser)
-                        .then(data => {
-                            console.log(data)
-                            toast.success("user created and saved success fully")
+                            if (user) {
+
+                                event.target.reset()
+                                saveUerToDatabase(initialUser)
+                                    .then(data => {
+                                        console.log(data)
+                                        toast.success("user created and saved success fully")
+                                        navigate('/')
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
+                            }
+
                         })
                         .catch(error => {
                             console.log(error)
                         })
-                }
 
+                }
             })
             .catch(error => {
                 console.log(error)
             })
+
+
+
 
     }
 
@@ -158,7 +174,7 @@ const SignUp = () => {
                         <label htmlFor="image" className=" ">Upload Profile Pic</label>
                         <div className="relative">
                             <input
-                                // onChange={(event) => setConfirmPassword(event.target.value)}
+
                                 type="file"
                                 accept="image/*"
                                 name="image"
