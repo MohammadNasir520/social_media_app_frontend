@@ -22,3 +22,9 @@ export const gmailSignupDataSaveToDB = async (user) => {
     const data = await response.json()
     return data
 }
+
+export const getUserByEmail = async (email) => {
+    const response = await fetch(`http://localhost:5000/api/v1/users/${email}`)
+
+    return await response.json()
+}
