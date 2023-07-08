@@ -80,7 +80,7 @@ const SignUp = () => {
                     const initialUser = {
                         name: user.displayName,
                         email: user.email,
-                        image: user.photoUR
+                        image: user.photoURL
                     }
                     gmailSignupDataSaveToDB(initialUser)
                         .then(data => {

@@ -1,21 +1,28 @@
+/* eslint-disable react/prop-types */
 
 
-const PostCard = () => {
+
+const PostCard = ({ post }) => {
+    const { image, text, user } = post
+    const { image: userImage, name } = user
+    console.log(image, text, user)
     return (
         <div className="flex justify-center">
 
             <div className="w-[90%] md:w-[60%] lg:w-[45%] flex justify-center items-center mt-4">
                 <div className=" container bg-white rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl">
-                    {/* <div>
-                        <h1 className="text-2xl mt-2 ml-4 font-bold text-gray-800 cursor-pointer hover:text-gray-900 transition duration-100">Lampara Look</h1>
-                        <p className="ml-4 mt-1 mb-2 text-gray-700 hover:underline cursor-pointer">#by Saca Tuerca</p>
-                    </div> */}
+
+                    {/* profile pic of post user's */}
                     <div className="flex items-center space-x-2">
-                        <img className="w-10 rounded-full" src="https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg" alt="sara" />
-                        <h2 className="text-gray-800 font-bold cursor-pointer">Felipe Sacudon</h2>
+                        <img className="w-10 h-10 rounded-full" src={userImage} alt="sara" />
+                        <h2 className="text-gray-800 font-bold cursor-pointer">{name}</h2>
                     </div>
 
-                    <img className="w-full h-[400px] md:h-[450px] lg:h-[500px] cursor-pointer" src="https://images.unsplash.com/photo-1525268771113-32d9e9021a97?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="" />
+                    <div>
+                        <p>{text}</p>
+                    </div>
+
+                    <img className="w-full h-[400px] md:h-[450px]  lg:h-[500px] cursor-pointer" src={image} alt="" />
                     <div className="flex p-4 justify-between">
 
                         <div className="flex space-x-2">
