@@ -10,8 +10,16 @@ export const createPost = async (post) => {
 
     return await response.json()
 }
-export const getAllPosts = async () => {
 
+
+export const getSinglePostById = async (id) => {
+
+    const response = await fetch(`http://localhost:5000/api/v1/posts/${id}`)
+    return await response.json()
+}
+
+
+export const getAllPosts = async () => {
     const response = await fetch(`http://localhost:5000/api/v1/posts`)
     return await response.json()
 }

@@ -10,6 +10,7 @@ import Main from "../layout/Main";
 import Media from "../pages/Media/Media";
 import About from "../pages/About/About";
 import Message from "../pages/Message/Message";
+import PostDetails from "../pages/PostDetails/PostDetails";
 
 
 
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
             {
                 path: "/about",
                 element: <About />,
+            },
+            {
+                path: "/post/:id",
+                loader: async ({ params }) => await fetch(`http://localhost:5000/api/v1/posts/${params.id}`),
+                element: <PostDetails />,
             },
 
         ]
