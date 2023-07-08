@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 import { saveUerToDatabase } from "../../api/userApi";
+import { GoogleAuthProvider } from "firebase/auth";
 
 
 const SignUp = () => {
-    const { createUserByEmail, updateUser } = useContext(AuthContext)
+    const { createUserByEmail, updateUser, logingByGmail } = useContext(AuthContext)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
+    const googleProvider = new GoogleAuthProvider()
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -48,6 +51,17 @@ const SignUp = () => {
                 console.log(error)
             })
 
+    }
+
+    const handleGoogleSignUp = () => {
+        logingByGmail(googleProvider)
+            .then(result => {
+                const user = result.user
+                if (user.uid) {
+                    toast(`${user.displayName} created account successfully`)
+                    console.log('user', user)
+                }
+            })
     }
 
     return (
@@ -148,11 +162,20 @@ const SignUp = () => {
                         Sign Up
                     </button>
 
-                    <p className="text-center text-sm text-white">
-                        already have an account?
-                        <Link to={'/signin'} className="underline mx-2 bg-transparent text-lg font-bold text-zinc-200" href="/pages/Login">Sign in</Link>
-                    </p>
+
+
                 </form>
+                <button
+                    onClick={handleGoogleSignUp}
+
+                    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+                >
+                    Sign Up with Gmail
+                </button>
+                <p className="text-center text-sm text-white">
+                    already have an account?
+                    <Link to={'/signin'} className="underline mx-2 bg-transparent text-lg font-bold text-zinc-200" href="/pages/Login">Sign in</Link>
+                </p>
             </div>
         </div>
 
