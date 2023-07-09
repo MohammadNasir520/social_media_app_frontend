@@ -2,10 +2,11 @@
 
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { createComment } from "../api/commentApi";
+import { createComment, getAllCommentsOfSinglePost } from "../api/commentApi";
 import { toast } from "react-hot-toast";
 import { getUserByEmail } from "../api/userApi";
 import { AuthContext } from "../context/AuthProvider";
+import { getAllReactsOfSinglePost } from "../api/reactApi";
 
 
 
@@ -16,6 +17,8 @@ const PostCard = ({ post }) => {
     const { image: userImage, name, } = user
 
     const [currentUser, setCurrentUser] = useState([])
+    const [reacts, setReacts] = useState([])
+    const [comments, setComments] = useState([])
 
     const [commentText, setCommentText] = useState('')
 
@@ -33,6 +36,22 @@ const PostCard = ({ post }) => {
     }, [loggedInUser?.email])
 
 
+    useEffect(() => {
+
+        getAllCommentsOfSinglePost(_id)
+            .then(data => {
+                setComments(data.data)
+            })
+    }, [_id])
+
+    useEffect(() => {
+
+        getAllReactsOfSinglePost(_id)
+            .then(data => {
+                setReacts(data.data)
+            })
+    }, [_id])
+    console.log('reacts', reacts)
 
     const handleComment = () => {
         if (commentText == "") {
@@ -58,6 +77,9 @@ const PostCard = ({ post }) => {
 
     }
 
+    const isReacted = reacts.filter(react => react?.user?._id === currentUser?._id)
+    console.log('is react', isReacted)
+
     return (
         <div className="flex justify-center">
 
@@ -80,18 +102,18 @@ const PostCard = ({ post }) => {
 
                         <div className="flex space-x-2">
                             <div className="flex space-x-1 items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-
-
 
                                 <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-red-500 hover:text-red-400 transition duration-100 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        className={`h-7 w-7 ${isReacted.length > 0 ? " text-red-500" : "text-slate-300"} hover:text-red-400 transition duration-100 cursor-pointer`}
+                                        viewBox="0 0 20 20" fill="currentColor"
+                                    >
                                         <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                                     </svg>
                                 </span>
-                                <span>20</span>
+
+
+                                <span>{reacts.length}</span>
 
                             </div>
                             <div className="flex space-x-1 items-center">
@@ -100,7 +122,7 @@ const PostCard = ({ post }) => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                     </svg>
                                 </span>
-                                <span>22</span>
+                                <span>{comments.length}</span>
                             </div>
 
 
