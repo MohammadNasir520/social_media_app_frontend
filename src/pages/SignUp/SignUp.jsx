@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 import { gmailSignupDataSaveToDB, saveUerToDatabase } from "../../api/userApi";
 import { GoogleAuthProvider } from "firebase/auth";
 import { uploadImage } from "../../api/uploadImage";
+import Spinner from "../../shared/Spinner";
 
 
 const SignUp = () => {
@@ -14,8 +15,12 @@ const SignUp = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const googleProvider = new GoogleAuthProvider()
+
+    const location = useLocation()
+    const form = location.state?.from?.pathname || '/'
     const navigate = useNavigate()
 
     const handleSubmit = (event) => {
@@ -23,14 +28,15 @@ const SignUp = () => {
         const image = event.target.image.files[0]
 
 
-        const initialUser = {
-            name, email, password, confirmPassword
-        }
 
+        setLoading(true)
         uploadImage(image)
             .then(photoURL => {
                 console.log(photoURL)
                 if (photoURL) {
+                    const initialUser = {
+                        name, email, password, confirmPassword, image: photoURL
+                    }
                     createUserByEmail(email, password)
                         .then(result => {
                             const user = result.user
@@ -42,26 +48,31 @@ const SignUp = () => {
                             if (user) {
 
                                 event.target.reset()
+
                                 saveUerToDatabase(initialUser)
                                     .then(data => {
                                         console.log(data)
+                                        setLoading(false)
                                         toast.success("user created and saved success fully")
-                                        navigate('/')
+                                        navigate(form)
                                     })
                                     .catch(error => {
                                         console.log(error)
+                                        setLoading(false)
                                     })
                             }
 
                         })
                         .catch(error => {
                             console.log(error)
+                            setLoading(false)
                         })
 
                 }
             })
             .catch(error => {
                 console.log(error)
+                setLoading(false)
             })
 
 
@@ -74,8 +85,7 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user
                 if (user.uid) {
-                    toast(`${user.displayName} created account successfully`)
-                    console.log('user', user)
+
 
                     const initialUser = {
                         name: user.displayName,
@@ -85,9 +95,12 @@ const SignUp = () => {
                     gmailSignupDataSaveToDB(initialUser)
                         .then(data => {
                             console.log(data)
+                            toast(`${user.displayName} created account successfully`)
+                            navigate(form)
                         })
                         .catch(error => {
                             console.log(error)
+                            setLoading(false)
                         })
                 }
             })
@@ -111,6 +124,7 @@ const SignUp = () => {
                         <div className="relative">
                             <label htmlFor="name" className="">Your Full Name</label>
                             <input
+                                required
                                 onChange={(event) => setName(event.target.value)}
                                 type="text"
                                 name="name"
@@ -127,6 +141,7 @@ const SignUp = () => {
                         <div className="relative">
                             <label htmlFor="email" className="">Your Email</label>
                             <input
+                                required
                                 onChange={(event) => setEmail(event.target.value)}
                                 type="email"
                                 name="email"
@@ -144,6 +159,7 @@ const SignUp = () => {
                         <label htmlFor="password" className=" ">Set a Password</label>
                         <div className="relative">
                             <input
+                                required
                                 onChange={(event) => setPassword(event.target.value)}
                                 type="password"
                                 name="password"
@@ -160,6 +176,7 @@ const SignUp = () => {
                         <label htmlFor="password" className=" ">Confirm Password</label>
                         <div className="relative">
                             <input
+                                required
                                 onChange={(event) => setConfirmPassword(event.target.value)}
                                 type="password"
                                 className="w-full bg-cyan-950  rounded-lg border-gray-200 p-2 pe-12  shadow-sm outline-none"
@@ -174,6 +191,7 @@ const SignUp = () => {
                         <label htmlFor="image" className=" ">Upload Profile Pic</label>
                         <div className="relative">
                             <input
+                                required
 
                                 type="file"
                                 accept="image/*"
@@ -188,7 +206,7 @@ const SignUp = () => {
                         type="submit"
                         className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
                     >
-                        Sign Up
+                        {loading ? <Spinner></Spinner> : 'Sign Up'}
                     </button>
 
 

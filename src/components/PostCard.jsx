@@ -1,17 +1,39 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { createComment } from "../api/commentApi";
 import { toast } from "react-hot-toast";
+import { getUserByEmail } from "../api/userApi";
+import { AuthContext } from "../context/AuthProvider";
+
 
 
 
 const PostCard = ({ post }) => {
+    const { user: loggedInUser } = useContext(AuthContext)
     const { image, text, user, _id } = post
-    const { image: userImage, name, _id: userId } = user
+    const { image: userImage, name, } = user
+
+    const [currentUser, setCurrentUser] = useState([])
 
     const [commentText, setCommentText] = useState('')
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
+
+
+    useEffect(() => {
+        getUserByEmail(loggedInUser?.email)
+            .then(data => {
+                setCurrentUser(data.data)
+            })
+
+    }, [loggedInUser?.email])
+
+
+
     const handleComment = () => {
         if (commentText == "") {
             return toast.error("please write your comment first")
@@ -19,21 +41,23 @@ const PostCard = ({ post }) => {
         const comment = {
             text: commentText,
             post: _id,
-            user: userId
+            user: currentUser?._id
 
         }
-        console.log(comment)
+
         createComment(comment)
             .then(data => {
                 console.log(data)
+
                 if (data.success == true) {
                     toast.success(` Hei ${name}..your comment is added !`)
                     setCommentText("")
+
                 }
             })
 
     }
-    console.log(post)
+
     return (
         <div className="flex justify-center">
 

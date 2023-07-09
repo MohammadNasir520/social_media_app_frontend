@@ -1,22 +1,24 @@
 
 
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
-
-
 
 
 const Login = () => {
     const { loginByEmailAndPassWord } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const location = useLocation()
+    const form = location.state?.from?.pathname || '/'
     const navigate = useNavigate()
+
+
+
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log('email', email)
-        console.log('pass', password)
 
         loginByEmailAndPassWord(email, password)
             .then(result => {
@@ -25,7 +27,7 @@ const Login = () => {
                 if (user) {
                     toast.success(`${user.displayName} logged in successfully`)
                     event.target.reset()
-                    navigate("/")
+                    navigate(form)
                 }
             })
             .catch(error => {
@@ -53,6 +55,7 @@ const Login = () => {
                             <div className="relative">
                                 <label htmlFor="email" className="">Your Email</label>
                                 <input
+                                    required
                                     type="email"
                                     onChange={(event) => setEmail(event.target.value)}
                                     className="w-full bg-cyan-950  rounded-lg border-gray-200 p-2 pe-12  shadow-sm outline-none"
@@ -69,6 +72,7 @@ const Login = () => {
                             <label htmlFor="password" className=" "> Password</label>
                             <div className="relative">
                                 <input
+                                    required
                                     type="password"
                                     onChange={(event) => setPassword(event.target.value)}
                                     className="w-full bg-cyan-950  rounded-lg border-gray-200 p-2 pe-12  shadow-sm outline-none"

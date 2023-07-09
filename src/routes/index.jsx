@@ -11,6 +11,7 @@ import Media from "../pages/Media/Media";
 import About from "../pages/About/About";
 import Message from "../pages/Message/Message";
 import PostDetails from "../pages/PostDetails/PostDetails";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/about",
-                element: <About />,
+                element: <PrivateRoute> <About /></PrivateRoute>,
             },
             {
                 path: "/post/:id",

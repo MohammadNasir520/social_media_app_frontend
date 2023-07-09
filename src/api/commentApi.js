@@ -12,6 +12,11 @@ export const createComment = async (comment) => {
 }
 
 
+export const getAllCommentsOfSinglePost = async (id) => {
+    const response = await fetch(`http://localhost:5000/api/v1/comments/${id}`)
+    return await response.json()
+}
+
 // export const getSinglePostById = async (id) => {
 
 //     const response = await fetch(`http://localhost:5000/api/v1/posts/${id}`)
@@ -19,7 +24,4 @@ export const createComment = async (comment) => {
 // }
 
 
-// export const getAllPosts = async () => {
-//     const response = await fetch(`http://localhost:5000/api/v1/posts`)
-//     return await response.json()
-// }
+
