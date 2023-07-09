@@ -1,7 +1,7 @@
 export const createReact = async (react) => {
     console.log(react)
     const response = await fetch(`http://localhost:5000/api/v1/reacts/create-react`, {
-        method: "POST",
+        method: "PUT",
         headers: {
             "content-type": "application/json"
         },

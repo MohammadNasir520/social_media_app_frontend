@@ -6,7 +6,8 @@ import { createComment, getAllCommentsOfSinglePost } from "../api/commentApi";
 import { toast } from "react-hot-toast";
 import { getUserByEmail } from "../api/userApi";
 import { AuthContext } from "../context/AuthProvider";
-import { getAllReactsOfSinglePost } from "../api/reactApi";
+import { createReact, getAllReactsOfSinglePost } from "../api/reactApi";
+
 
 
 
@@ -37,20 +38,24 @@ const PostCard = ({ post }) => {
 
 
     useEffect(() => {
+        fetchAllCommentsOfSinglePost()
 
-        getAllCommentsOfSinglePost(_id)
-            .then(data => {
-                setComments(data.data)
-            })
     }, [_id])
+
+    const fetchAllCommentsOfSinglePost = () => getAllCommentsOfSinglePost(_id)
+        .then(data => {
+            setComments(data.data)
+        })
 
     useEffect(() => {
 
-        getAllReactsOfSinglePost(_id)
-            .then(data => {
-                setReacts(data.data)
-            })
+        fetchGetAllReactsOfSinglePost()
     }, [_id])
+
+    const fetchGetAllReactsOfSinglePost = () => getAllReactsOfSinglePost(_id)
+        .then(data => {
+            setReacts(data.data)
+        })
     console.log('reacts', reacts)
 
     const handleComment = () => {
@@ -75,6 +80,21 @@ const PostCard = ({ post }) => {
                 }
             })
 
+    }
+
+    const handleCreateReact = (reaction, postId, userId) => {
+        const react = {
+            react: reaction,
+            post: postId,
+            user: userId
+        }
+        createReact(react)
+            .then(data => {
+                console.log(data)
+                fetchGetAllReactsOfSinglePost()
+            })
+
+        console.log(react)
     }
 
     const isReacted = reacts.filter(react => react?.user?._id === currentUser?._id)
@@ -103,7 +123,9 @@ const PostCard = ({ post }) => {
                         <div className="flex space-x-2">
                             <div className="flex space-x-1 items-center">
 
-                                <span>
+                                <span
+                                    onClick={() => handleCreateReact('love', _id, currentUser?._id)}
+                                >
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         className={`h-7 w-7 ${isReacted.length > 0 ? " text-red-500" : "text-slate-300"} hover:text-red-400 transition duration-100 cursor-pointer`}
                                         viewBox="0 0 20 20" fill="currentColor"
@@ -116,14 +138,21 @@ const PostCard = ({ post }) => {
                                 <span>{reacts.length}</span>
 
                             </div>
-                            <div className="flex space-x-1 items-center">
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-600 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                    </svg>
-                                </span>
-                                <span>{comments.length}</span>
-                            </div>
+
+                            {/* comment Icon */}
+                            <Link
+                                to={`/post/${_id}`}
+                            >
+
+                                <div className="flex space-x-1 items-center">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-600 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                        </svg>
+                                    </span>
+                                    <span>{comments.length}</span>
+                                </div>
+                            </Link>
 
 
                         </div>

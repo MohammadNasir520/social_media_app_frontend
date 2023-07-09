@@ -19,7 +19,8 @@ export const getSinglePostById = async (id) => {
 }
 
 
-export const getAllPosts = async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/posts`)
+export const getAllPosts = async (paginationOptions) => {
+    const { page, limit, sortBy, sortOrder } = paginationOptions
+    const response = await fetch(`http://localhost:5000/api/v1/posts/?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`)
     return await response.json()
 }
