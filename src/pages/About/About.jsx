@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { getUserByEmail, updateSingleUser } from "../../api/userApi";
 import { AuthContext } from "../../context/AuthProvider";
 import { uploadImage } from "../../api/uploadImage";
+import FullPageSpinner from "../../shared/FullPageSpinner";
 
 
 
 
 const About = () => {
     const { user: loggedInUser } = useContext(AuthContext)
+    const [loading, setLoading] = useState(true)
     const [currentUser, setCurrentUser] = useState([])
     const [showModal, setShowModal] = useState(false);
 
@@ -27,6 +29,7 @@ const About = () => {
     const fetchgetUserByEmail = () => getUserByEmail(loggedInUser?.email)
         .then(data => {
             setCurrentUser(data.data)
+            setLoading(false)
         })
 
 
@@ -77,9 +80,13 @@ const About = () => {
     }
 
 
-
+    if (loading) {
+        return <FullPageSpinner></FullPageSpinner>
+    }
 
     return (
+
+
         <div className="h-screen w-full grid place-items-center">
             <div className="relative flex lg:w-2/4 h-full flex-col rounded-lg  bg-white bg-clip-border text-gray-700 shadow-md">
                 <div className="relative mx-4 mt-4 h-96 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
