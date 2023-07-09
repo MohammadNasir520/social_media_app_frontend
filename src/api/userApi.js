@@ -28,3 +28,16 @@ export const getUserByEmail = async (email) => {
 
     return await response.json()
 }
+
+export const updateSingleUser = async (id, user) => {
+    const response = await fetch(`http://localhost:5000/api/v1/users/${id}`, {
+        method: "PATCH",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(user)
+
+    })
+    const data = await response.json()
+    return data
+}

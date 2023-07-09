@@ -1,13 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+import { getUserByEmail } from "../api/userApi";
 
 
 const Navbar = () => {
     const [isMenuOpen, setMenuOpen] = useState(false)
     const { user, logout } = useContext(AuthContext)
+    const [currentUser, setCurrentUser] = useState([])
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        fetchgetUserByEmail()
+    }, [user?.email])
+
+
+    const fetchgetUserByEmail = () => getUserByEmail(user?.email)
+        .then(data => {
+            setCurrentUser(data.data)
+        })
+
+
 
     const handleLogout = () => {
         logout()
@@ -79,7 +93,7 @@ const Navbar = () => {
 
         }
         <div className="flex items-center space-x-2 m ">
-            <img className="w-10 h-10 rounded-full" src={`${user?.photoURL}`} alt="pp" />
+            <img className="w-10 h-10 rounded-full" src={`${currentUser?.image}`} alt="pp" />
             {isMenuOpen && <h2 className="text-gray-800 font-bold cursor-pointer">{user?.displayName}</h2>}
         </div>
     </div>

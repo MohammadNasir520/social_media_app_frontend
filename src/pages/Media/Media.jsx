@@ -6,10 +6,13 @@ import { getAllPosts } from "../../api/post";
 const Media = () => {
 
     const [posts, setPosts] = useState([])
+    const paginationOptions = {
+        page: 1, limit: 100, sortBy: 'createdAt', sortOrder: 'desc'
+    }
 
     useEffect(() => {
 
-        getAllPosts()
+        getAllPosts(paginationOptions)
             .then(data => {
                 console.log(data)
                 setPosts(data.data)

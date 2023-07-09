@@ -15,7 +15,10 @@ import { createReact, getAllReactsOfSinglePost } from "../api/reactApi";
 const PostCard = ({ post }) => {
     const { user: loggedInUser } = useContext(AuthContext)
     const { image, text, user, _id } = post
-    const { image: userImage, name, } = user
+    const { name, } = user
+    const userImage = user?.image
+
+    console.log('user', user)
 
     const [currentUser, setCurrentUser] = useState([])
     const [reacts, setReacts] = useState([])

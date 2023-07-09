@@ -64,7 +64,7 @@ const CreatePostCard = () => {
                     const post = {
                         text: text,
                         image: photoURL,
-                        user: data.data._id
+                        user: data?.data?._id
                     }
 
                     createPost(post)

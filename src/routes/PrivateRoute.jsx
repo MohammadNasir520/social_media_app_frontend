@@ -5,13 +5,14 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthProvider';
-import Spinner from '../shared/Spinner';
+
+import FullPageSpinner from '../shared/FullPageSpinner';
 
 const PrivateRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
     const location = useLocation()
     if (loading) {
-        return <Spinner></Spinner>
+        return <FullPageSpinner></FullPageSpinner>
     }
 
     if (user) {
