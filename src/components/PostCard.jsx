@@ -59,7 +59,7 @@ const PostCard = ({ post }) => {
         .then(data => {
             setReacts(data.data)
         })
-    console.log('reacts', reacts)
+
 
     const handleComment = () => {
         if (commentText == "") {

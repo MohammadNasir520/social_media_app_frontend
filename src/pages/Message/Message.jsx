@@ -1,6 +1,6 @@
 
 
-import FullPageSpinner from "../../shared/FullPageSpinner";
+
 
 
 const Message = () => {
