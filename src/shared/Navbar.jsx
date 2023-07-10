@@ -10,16 +10,17 @@ const Navbar = () => {
     const [currentUser, setCurrentUser] = useState([])
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-        fetchgetUserByEmail()
-    }, [user?.email])
-
-
     const fetchgetUserByEmail = () => getUserByEmail(user?.email)
         .then(data => {
             setCurrentUser(data.data)
         })
+
+    useEffect(() => {
+        fetchgetUserByEmail()
+    }, [user?.email, currentUser?.image, fetchgetUserByEmail])
+
+
+
 
 
 

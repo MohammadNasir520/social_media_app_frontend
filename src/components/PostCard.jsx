@@ -62,6 +62,10 @@ const PostCard = ({ post }) => {
 
 
     const handleComment = () => {
+        if (!loggedInUser) {
+            toast.error('please login to comment')
+            return
+        }
         if (commentText == "") {
             return toast.error("please write your comment first")
         }
@@ -86,6 +90,10 @@ const PostCard = ({ post }) => {
     }
 
     const handleCreateReact = (reaction, postId, userId) => {
+        if (!loggedInUser) {
+            toast.error('please login to react')
+            return
+        }
         const react = {
             react: reaction,
             post: postId,
