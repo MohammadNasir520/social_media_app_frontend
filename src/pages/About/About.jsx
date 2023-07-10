@@ -19,7 +19,7 @@ const About = () => {
 
 
 
-    const { name, image, university, address } = currentUser
+    const { name, image, university, address, email } = currentUser
 
     useEffect(() => {
         fetchgetUserByEmail()
@@ -102,6 +102,9 @@ const About = () => {
                     </button>
                     <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
                         {name}
+                    </h4>
+                    <h4 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+                        {email}
                     </h4>
                     <p className="block bg-gradient-to-tr from-black text-lg to-pink-400 bg-clip-text font-sans  font-medium leading-relaxed text-transparent antialiased">
                         University: {university}

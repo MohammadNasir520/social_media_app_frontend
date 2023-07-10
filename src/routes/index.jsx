@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/post/:id",
-                loader: async ({ params }) => await fetch(`https://social-medea-app-server.vercel.app/api/v1/posts/${params.id}`),
+                loader: async ({ params }) => await fetch(`http://localhost:5000/api/v1/posts/${params.id}`),
                 element: <PostDetails />,
             },
 

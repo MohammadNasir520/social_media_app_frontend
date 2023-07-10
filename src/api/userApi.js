@@ -1,5 +1,5 @@
 export const saveUerToDatabase = async (user) => {
-    const response = await fetch(`https://social-medea-app-server.vercel.app/api/v1/auth/signup`, {
+    const response = await fetch(`http://localhost:5000/api/v1/auth/signup`, {
         method: "POST",
         headers: {
             'content-type': 'application/json'
@@ -11,7 +11,7 @@ export const saveUerToDatabase = async (user) => {
     return data
 }
 export const gmailSignupDataSaveToDB = async (user) => {
-    const response = await fetch(`https://social-medea-app-server.vercel.app/api/v1/gmailAuth/signupWthGmail`, {
+    const response = await fetch(`http://localhost:5000/api/v1/gmailAuth/signupWthGmail`, {
         method: "PUT",
         headers: {
             'content-type': 'application/json'
@@ -24,13 +24,13 @@ export const gmailSignupDataSaveToDB = async (user) => {
 }
 
 export const getUserByEmail = async (email) => {
-    const response = await fetch(`https://social-medea-app-server.vercel.app/api/v1/users/${email}`)
+    const response = await fetch(`http://localhost:5000/api/v1/users/${email}`)
 
     return await response.json()
 }
 
 export const updateSingleUser = async (id, user) => {
-    const response = await fetch(`https://social-medea-app-server.vercel.app/api/v1/users/${id}`, {
+    const response = await fetch(`http://localhost:5000/api/v1/users/${id}`, {
         method: "PATCH",
         headers: {
             'content-type': 'application/json'

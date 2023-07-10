@@ -101,18 +101,18 @@ const CreatePostCard = () => {
                     className="my-3"
                 >
                     <div className=" justify-center   bg-[#d7ccc8]">
-                        <label className="w-40 h-[67px]  flex flex-col items-center  bg-[#d7ccc8] text-blue  shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white">
+                        <label className="lg:w-40 h-[67px]  flex flex-col items-center  bg-[#d7ccc8] text-blue  shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white">
                             <svg className="w-5 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                             </svg>
-                            <span className="mt-2 text-base leading-normal">upload pic</span>
+                            <span className="mt-2 text-xs lg:text-base leading-normal">upload pic</span>
                             <input type='file' className="hidden" disabled={!user} />
                         </label>
                     </div>
                 </div>
 
                 {/* text area */}
-                <div className="w-96">
+                <div className="w-[60%]  lg:w-96  ">
                     <div className="relative w-full min-w-[200px]">
                         <textarea
                             className="peer h-[63px]  w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
