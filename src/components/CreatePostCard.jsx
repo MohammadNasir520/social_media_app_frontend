@@ -73,6 +73,7 @@ const CreatePostCard = () => {
                             if (data.success == true) {
                                 setPhotURL("")
                                 event.target.reset()
+                                navigate('/media')
                             }
                         })
                 }
